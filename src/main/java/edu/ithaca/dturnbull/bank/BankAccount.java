@@ -49,7 +49,9 @@ public class BankAccount {
         }
         else if (!(dotIndex > atIndex + 1)){
             return false;
-        } else {
+        } 
+        
+        else {
             return true;
         }
     }
