@@ -49,9 +49,15 @@ public class BankAccount {
         }
         else if (!(dotIndex > atIndex + 1)){
             return false;
-        } 
-        
-        else {
+        }
+        String emailNoP = email.replace(".","");
+        if (emailLength - emailNoP.length() != 1){
+            return false;
+        }
+        String emailNoAt = email.replace("@", "");
+        if (emailLength - emailNoAt.length() != 1){
+            return false;
+        } else {
             return true;
         }
     }
