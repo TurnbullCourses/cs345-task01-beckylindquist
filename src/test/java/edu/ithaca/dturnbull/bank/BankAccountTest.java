@@ -25,11 +25,23 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com")); //valid email
-        assertFalse( BankAccount.isEmailValid("")); //no email
-        assertFalse(BankAccount.isEmailValid("b.com")); //just domain 
-        assertFalse(BankAccount.isEmailValid("a@b")); //no domain
-        assertFalse(BankAccount.isEmailValid("a@@b.com")); //two @s
-        assertFalse(BankAccount.isEmailValid("a@b..com")); //two periods
+        assertFalse(BankAccount.isEmailValid("")); //no email
+
+        //Prefix Tests
+        assertTrue(BankAccount.isEmailValid("a.b@c.com")); //two nonconjunctive periods allowed
+        assertFalse(BankAccount.isEmailValid(".a@b.com")); //no prefix startiing with .
+        assertFalse(BankAccount.isEmailValid("abc_@b.com")); //no prefix ending with underscore
+        assertFalse(BankAccount.isEmailValid("a#b@c.com")); //no special chars
+
+        //Domain Tests
+        assertFalse(BankAccount.isEmailValid("b.com")); //just domain
+        assertFalse(BankAccount.isEmailValid("a@b")); //no domain end
+        assertFalse(BankAccount.isEmailValid("a@b.c")); //no domain with only 1 character
+        assertFalse(BankAccount.isEmailValid("a@@b.com")); //no two @s
+        assertFalse(BankAccount.isEmailValid("a@b..com")); //no two conjunctive periods
+        assertTrue(BankAccount.isEmailValid("a@b.c#om")); //no special chars
+        
+
     }
 
     @Test
