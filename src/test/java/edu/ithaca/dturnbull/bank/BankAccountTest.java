@@ -29,16 +29,17 @@ class BankAccountTest {
 
         //Prefix Tests
         assertTrue(BankAccount.isEmailValid("a.b@c.com")); //two nonconjunctive periods allowed
-        assertFalse(BankAccount.isEmailValid(".a@b.com")); //no prefix startiing with .
-        assertFalse(BankAccount.isEmailValid("abc_@b.com")); //no prefix ending with underscore
+        assertFalse(BankAccount.isEmailValid(".a@b.com")); //no prefix startiing with . why does this work with a peroid but not a _??
+        assertFalse(BankAccount.isEmailValid("-a@b.com"));
+        assertFalse(BankAccount.isEmailValid("abc.@b.com")); //no prefix ending with underscore
         assertFalse(BankAccount.isEmailValid("a#b@c.com")); //no special chars
-
+        
         //Domain Tests
         assertFalse(BankAccount.isEmailValid("b.com")); //just domain
         assertFalse(BankAccount.isEmailValid("a@b")); //no domain end
-        assertFalse(BankAccount.isEmailValid("a@b.c")); //no domain with only 1 character
+        assertFalse(BankAccount.isEmailValid("abc@zyx.c")); //no domain with only 1 character
         assertFalse(BankAccount.isEmailValid("a@@b.com")); //no two @s
-        assertFalse(BankAccount.isEmailValid("a@b..com")); //no two conjunctive periods
+        assertFalse(BankAccount.isEmailValid("a@b.c.om")); //cannot have more than one peroid in email (according to wikipedia)
         assertTrue(BankAccount.isEmailValid("a@b.c#om")); //no special chars
         
 
