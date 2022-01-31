@@ -25,6 +25,7 @@ class BankAccountTest {
         bankAccount.deposit(0); //deposit zero
         assertThrows(IllegalArgumentException.class, ()->  bankAccount.deposit(0));
     }
+
     @Test
     void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200); 
@@ -46,6 +47,13 @@ class BankAccountTest {
         
         assertEquals(-1, bankAccount.getBalance(), 0.001); //withdraw negative money
         assertThrows(NegativeWithdrawException.class, () -> bankAccount.withdraw(-1)); 
+    }
+
+    @Test
+    void isAmountValidTest(){
+        assertEquals(true, isAmountValid(100.00)); //normal amount
+        assertEquals(false, isAmountValid(100.000)); //>2 decimal places
+        assertEquals(false, isAmountValid(-1)); //negative number
     }
 
     @Test
