@@ -38,7 +38,7 @@ public class BankAccount {
         }
     }
 
-
+    /*
     public static boolean isEmailValid(String email){
         int atIndex = email.indexOf("@");
         int dotIndex = email.indexOf(".");
@@ -61,5 +61,51 @@ public class BankAccount {
         else {
             return true;
         }
+    }
+    */
+
+    public static boolean isEmailValid(String email){
+        char[] emailChars = email.toCharArray();
+        int atCount = 0;
+        int atIndex = 0;
+        int pCount = 0;
+        //confirm that email contains one @ and stores its index
+        for (int i = 0; i < emailChars.length; i++){
+            if (emailChars[i] == '@'){
+                atCount += 1;
+                atIndex = i;    
+                
+            }
+        }
+        if (atCount != 1){
+            return false;
+        }
+
+        //checks prefix for concurrent .,_,- or .,_,- at the front or start and special characters(currently just #) 
+        for (int j = 0; j < atIndex; j++){
+            if ( (emailChars[j] == '_' || emailChars[j] == '-' || emailChars[j] == '.') && (emailChars[j+1] == '.' || emailChars[j+1] =='-' || emailChars[j+1] =='_' || emailChars[j+1] == '@')){
+                return false;
+            } else if ((j == 0 || (j+1) == atIndex) && (emailChars[j] == '_' || emailChars[j] == '-' || emailChars[j] == '.')){
+                return false;
+            } else if (emailChars[j] == '#'){ //ADD MORE
+                return false;
+            }
+        }
+
+
+        for (int n=atIndex; n < emailChars.length; n++){
+            if (emailChars[n] == '.'){
+                pCount += 1;
+            } 
+            if (emailChars[n] == '.' && ((n+3) > emailChars.length)){
+                return false;
+            }
+
+            
+        }
+        if (pCount != 1){
+            return false;
+        }
+        return true;
     }
 }
