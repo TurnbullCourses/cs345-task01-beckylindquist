@@ -9,17 +9,68 @@ class BankAccountTest {
     @Test
     void getBalanceTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-
         assertEquals(200, bankAccount.getBalance(), 0.001);
     }
 
     @Test
-    void withdrawTest() throws InsufficientFundsException{
+    void depositTest()  throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-        bankAccount.withdraw(100);
+        
+        bankAccount.deposit(100); //deposit some money
+        assertEquals(300, bankAccount.getBalance());
 
-        assertEquals(100, bankAccount.getBalance(), 0.001);
+        bankAccount.deposit(100.001); //deposit 3 decimals
+        assertThrows(IllegalArgumentException.class, ()->  bankAccount.deposit(100.001));  //should remain unchanged/not work
+
+        bankAccount.deposit(0); //deposit zero
+        assertThrows(IllegalArgumentException.class, ()->  bankAccount.deposit(0));
+    }
+
+    @Test
+    void transferTest() throws InsufficientFundsException{
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+
+        bankAccount.transfer("b@c.com", 100); //transfers 100 from a@b.com to b@c.com
+        assertEquals(100, bankAccount.getBalance());
+
+        bankAccount.transfer("b@c.com", 300); //transfers more than is in a@b.com account
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.transfer("b@c.com", 300));
+
+        bankAccount.transfer("b@c.com", -1); //transfers invalid amount
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.transfer("b@c.com", -1));
+
+        bankAccount.transfer("b@c.com", 0); //transfers zero amount
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount.transfer("b@c.com", 0));
+    }
+
+    @Test
+    void withdrawTest() throws InsufficientFundsException{
+        BankAccount bankAccount = new BankAccount("a@b.com", 200); 
+        
+        bankAccount.withdraw(100);//withdraw some money
+        assertEquals(100, bankAccount.getBalance());
+
+        bankAccount.withdraw(100.001); //withdraw 3 decimals
+        assertThrows(IllegalArgumentException.class, ()->  bankAccount.withdraw(100.001)); //should remain unchanged/not work
+
+        bankAccount.withdraw(0); //withdraw zero money
+        assertEquals(100, bankAccount.getBalance());
+
+        bankAccount.withdraw(200); //withdraw all funds
+        assertEquals(0, bankAccount.getBalance(), 0.001);
+
+        assertEquals(100, bankAccount.getBalance(), 0.001); //withdraw more than is in account
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+        
+        assertEquals(-1, bankAccount.getBalance(), 0.001); //withdraw negative money
+        assertThrows(NegativeWithdrawException.class, () -> bankAccount.withdraw(-1)); 
+    }
+
+    @Test
+    void isAmountValidTest(){
+        assertEquals(true, isAmountValid(100.00)); //normal amount
+        assertEquals(false, isAmountValid(100.000)); //>2 decimal places
+        assertEquals(false, isAmountValid(-1)); //negative number
     }
 
     @Test
@@ -35,7 +86,7 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid("a#b@c.com")); //no special chars
         
         //Domain Tests
-        assertFalse(BankAccount.isEmailValid("b.com")); //just domain
+        assertFalse(BankAccount.isEmailValid("@b.com")); //no prefix
         assertFalse(BankAccount.isEmailValid("a@b")); //no domain end
         assertFalse(BankAccount.isEmailValid("abc@zyx.c")); //no domain with only 1 character
         assertFalse(BankAccount.isEmailValid("a@@b.com")); //no two @s
