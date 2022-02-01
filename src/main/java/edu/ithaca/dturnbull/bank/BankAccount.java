@@ -30,13 +30,54 @@ public class BankAccount {
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
     public void withdraw (double amount) throws InsufficientFundsException{
-        if (amount <= balance){
-            balance -= amount;
+        if(isAmountValid(amount)){ //if amount is valid
+            if (amount <= balance){
+                balance -= amount;
+            }
+            else {
+                throw new InsufficientFundsException("Not enough money");
+            }
         }
         else {
-            throw new InsufficientFundsException("Not enough money");
+            throw new IllegalArgumentException("Withdraw amount invalid");
         }
     }
+
+    public void deposit(double amount) throws IllegalArgumentException{
+        if(isAmountValid(amount)){ //if amount is valid
+            if(amount==0){
+                throw new IllegalArgumentException("Cannot deposit zero");
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Deposit amount invalid");
+        }
+    }
+
+    
+    public void transfer(String email, double amount) throws InsufficientFundsException{
+        if(isAmountValid(amount)){ //if amount is valid
+            if(isEmailValid(email)){
+                if(amount<= balance){
+                    balance-= amount;
+                }
+                throw new InsufficientFundsException("not enough money");
+            }
+            throw new IllegalArgumentException("Email invalid");
+        }
+        throw new IllegalArgumentException("Transfer amount invalid");
+    }
+
+    public static boolean isAmountValid(double amount){
+        if(String.valueOf(amount) == (String.format("%.2f", amount))){ //if amount is two decimal places
+            if(amount<0){ //if amount is negative
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
 
     /*
     public static boolean isEmailValid(String email){
