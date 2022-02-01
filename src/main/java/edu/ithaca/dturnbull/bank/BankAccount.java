@@ -1,5 +1,7 @@
 package edu.ithaca.dturnbull.bank;
 
+import java.math.BigDecimal;
+
 public class BankAccount {
 
     private String email;
@@ -67,7 +69,7 @@ public class BankAccount {
                 
             }
         }
-        if (atCount != 1){
+        if (atCount != 1 || atIndex == 0){
             return false;
         }
 
@@ -101,7 +103,16 @@ public class BankAccount {
     }
 
     public static boolean isAmountValid(double amount){
-        return false;
+        String amountString = Double.toString(amount);
+        BigDecimal num = new BigDecimal(amountString);
+        if (amount <= 0){
+            return false;
+        } else if (num.scale() > 2){
+            return false;
+        } else {
+            return true;
+        }
     }
+
 
 }
