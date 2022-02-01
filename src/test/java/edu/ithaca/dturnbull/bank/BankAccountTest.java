@@ -50,7 +50,6 @@ class BankAccountTest {
         bankAccount.withdraw(100);//withdraw some money
         assertEquals(100, bankAccount.getBalance());
 
-        bankAccount.withdraw(100.001); //withdraw 3 decimals
         assertThrows(IllegalArgumentException.class, ()->  bankAccount.withdraw(100.001)); //should remain unchanged/not work
 
         bankAccount.withdraw(0); //withdraw zero money
@@ -66,6 +65,8 @@ class BankAccountTest {
         assertThrows(NegativeWithdrawException.class, () -> bankAccount.withdraw(-1)); 
     }
     
+    
+
     @Test
     void isAmountValidTest(){
         assertEquals(true, BankAccount.isAmountValid(100.25)); //normal amount
