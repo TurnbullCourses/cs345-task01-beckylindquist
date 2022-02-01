@@ -38,32 +38,6 @@ public class BankAccount {
         }
     }
 
-    /*
-    public static boolean isEmailValid(String email){
-        int atIndex = email.indexOf("@");
-        int dotIndex = email.indexOf(".");
-        int emailLength = email.length();
-        String emailNoP = email.replace(".","");
-        String emailNoAt = email.replace("@", "");
-
-        if (atIndex == -1 || atIndex == 0 || atIndex == emailLength -1){
-            return false;
-        }
-        else if (!(dotIndex > atIndex + 1)){
-            return false;
-        }
-        else if (emailLength - emailNoP.length() != 1){
-            return false;
-        }
-        else if (emailLength - emailNoAt.length() != 1){
-            return false;
-        } 
-        else {
-            return true;
-        }
-    }
-    */
-
     public static boolean isEmailValid(String email){
         char[] emailChars = email.toCharArray();
         int atCount = 0;
@@ -97,7 +71,7 @@ public class BankAccount {
             if (emailChars[n] == '.'){
                 pCount += 1;
             } 
-            if (emailChars[n] == '.' && ((n+3) > emailChars.length)){
+            if (emailChars[n] == '.' && ( ( (n+3) > emailChars.length ) || (n < (atIndex+2) ))){
                 return false;
             }
 
@@ -106,6 +80,12 @@ public class BankAccount {
         if (pCount != 1){
             return false;
         }
+
         return true;
     }
+
+    public static boolean isAmountValid(double amount){
+        return false;
+    }
+
 }

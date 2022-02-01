@@ -41,6 +41,7 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid("a@@b.com")); //no two @s
         assertFalse(BankAccount.isEmailValid("a@b.c.om")); //cannot have more than one peroid in email (according to wikipedia)
         assertTrue(BankAccount.isEmailValid("a@b.c#om")); //no special chars
+        assertFalse(BankAccount.isEmailValid("abc@.com")); //need domain name
         
 
     }
