@@ -23,24 +23,23 @@ class BankAccountTest {
 
         assertThrows(IllegalArgumentException.class, ()->  bankAccount.deposit(0));
     }
-    /*
+    
     @Test
     void transferTest() throws InsufficientFundsException{
-        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount1 = new BankAccount("a@b.com", 200);
+        BankAccount bankAccount2 = new BankAccount("b@c.com", 0);
 
-        bankAccount.transfer("b@c.com", 100); //transfers 100 from a@b.com to b@c.com
-        assertEquals(100, bankAccount.getBalance());
+        bankAccount1.transfer(bankAccount2, 100); //transfers 100 from a@b.com to b@c.com
+        assertEquals(100, bankAccount1.getBalance());
+        assertEquals(100, bankAccount2.getBalance());
 
-        bankAccount.transfer("b@c.com", 300); //transfers more than is in a@b.com account
-        assertThrows(IllegalArgumentException.class, ()-> bankAccount.transfer("b@c.com", 300));
+        assertThrows(InsufficientFundsException.class, ()-> bankAccount1.transfer(bankAccount2, 300)); //transfers more than is in a@b.com account
 
-        bankAccount.transfer("b@c.com", -1); //transfers invalid amount
-        assertThrows(IllegalArgumentException.class, ()-> bankAccount.transfer("b@c.com", -1));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount1.transfer(bankAccount2, -1)); //transfers invalid amount
 
-        bankAccount.transfer("b@c.com", 0); //transfers zero amount
-        assertThrows(IllegalArgumentException.class, ()-> bankAccount.transfer("b@c.com", 0));
+        assertThrows(IllegalArgumentException.class, ()-> bankAccount1.transfer(bankAccount2, 0)); //transfers zero amount
     }
-    */
+    
     @Test
     void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200); 
@@ -72,6 +71,7 @@ class BankAccountTest {
     
     @Test
     void isEmailValidTest(){
+        //Middle Tests
         assertTrue(BankAccount.isEmailValid( "a@b.com")); //valid email
         assertFalse(BankAccount.isEmailValid("")); //no email
 

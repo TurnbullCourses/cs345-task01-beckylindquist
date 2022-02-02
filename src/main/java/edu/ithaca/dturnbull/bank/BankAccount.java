@@ -54,6 +54,12 @@ public class BankAccount {
         }
     }
 
+    public void transfer(BankAccount account, double amount) throws InsufficientFundsException{
+        //dont need to do any of the throwing in this method as it is already handled in widraw and deposit
+        this.withdraw(amount);
+        account.deposit(amount);
+    }
+    
     public static boolean isEmailValid(String email){
         char[] emailChars = email.toCharArray();
         int atCount = 0;
