@@ -18,11 +18,9 @@ class BankAccountTest {
         
         bankAccount.deposit(100); //deposit some money
         assertEquals(300, bankAccount.getBalance());
-
-        bankAccount.deposit(100.001); //deposit 3 decimals
+      
         assertThrows(IllegalArgumentException.class, ()->  bankAccount.deposit(100.001));  //should remain unchanged/not work
 
-        bankAccount.deposit(0); //deposit zero
         assertThrows(IllegalArgumentException.class, ()->  bankAccount.deposit(0));
     }
     /*
@@ -55,14 +53,12 @@ class BankAccountTest {
         bankAccount.withdraw(0); //withdraw zero money
         assertEquals(100, bankAccount.getBalance());
 
-        bankAccount.withdraw(200); //withdraw all funds
+        bankAccount.withdraw(100); //withdraw all funds
         assertEquals(0, bankAccount.getBalance(), 0.001);
 
-        assertEquals(100, bankAccount.getBalance(), 0.001); //withdraw more than is in account
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //withdraw more than is in account
         
-        assertEquals(-1, bankAccount.getBalance(), 0.001); //withdraw negative money
-        assertThrows(NegativeWithdrawException.class, () -> bankAccount.withdraw(-1)); 
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-1)); //withdraw negative money
     }
     
     

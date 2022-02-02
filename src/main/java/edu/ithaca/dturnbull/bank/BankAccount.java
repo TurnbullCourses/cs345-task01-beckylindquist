@@ -47,6 +47,7 @@ public class BankAccount {
             if(amount==0){
                 throw new IllegalArgumentException("Cannot deposit zero");
             }
+            balance += amount;
         }
         else {
             throw new IllegalArgumentException("Deposit amount invalid");
